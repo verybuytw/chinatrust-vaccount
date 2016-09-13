@@ -33,7 +33,7 @@ class VirtualAccountBuilderTest extends AbstractTestCase
             'type' => VerifyType::SINGLE_AMOUNT_DATE,
             'amount' => 50943,      // 金額     max length:10
             'number' => '0303',     // 自訂碼   length:4
-            'expired_at' => strtotime('1999-01-01')
+            'expired_at' => strtotime('1999-01-01'),
         ]);
 
         $this->assertEquals(98102900103031, $builder->make());
