@@ -1,0 +1,37 @@
+{
+    "name": "vb-payment/chinatrust-vaccount",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Hughes",
+            "email": "hughes@pht-studio.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^1.21",
+        "illuminate/support": "^5.3"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~5.5",
+        "symfony/process": "~3.0",
+        "symfony/var-dumper": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "VeryBuy\\Payment\\ChinaTrust\\VirtualAccount\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Payment\\ChinaTrust\\VirtualAccount\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
+
