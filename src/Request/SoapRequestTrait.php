@@ -42,7 +42,7 @@ trait SoapRequestTrait
      *
      * @return SoapHeader
      */
-    protected function genSoapHeader(array $options)
+    public function genSoapHeader(array $options)
     {
 
 //        $headers = [

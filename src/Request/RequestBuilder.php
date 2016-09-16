@@ -48,18 +48,24 @@ class RequestBuilder
         return $this->getCompanyId().sprintf('%015d', Carbon::now()->format('YmdHis'));
     }
 
-    public function make(array $header, $body)
+    public function make($params)
     {
         $this->client = $this->genClient(
-            static::genSoapHeader($header)
+            static::genSoapHeader([
+                'from' => ['name' => static::COMPANY_NAME],
+                'to' => ['name' => 'CTCB'],
+                'operationID' => 'InstnCollPmt/1.0/InstnCollPmtInstAdd',
+                'operationType' => 'syncRequestResponse',
+                'transactionID' => static::genTransactionId(),
+            ])
         );
 
-//        try {
+        try {
             $this->response = $this->getClient()
-                ->__soapCall('InstnCollPmtInstAdd', [$body]);
-//        } catch (SoapFault $e) {
-//            $this->e = $e;
-//        }
+                ->__soapCall('InstnCollPmtInstAdd', [$params]);
+        } catch (SoapFault $e) {
+            $this->e = $e;
+        }
 
         return $this;
     }
