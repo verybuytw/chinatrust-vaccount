@@ -5,12 +5,14 @@ namespace VeryBuy\Payment\ChinaTrust\VirtualAccount\Request;
 use Carbon\Carbon;
 use Closure;
 use SoapFault;
+use InvalidArgumentException;
+use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\RequestValidateTrait as RequestValidate;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\ResponseStateTrait as ResponseState;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\SoapRequestTrait as SoapRequest;
 
 class RequestBuilder
 {
-    use SoapRequest, ResponseState;
+    use SoapRequest, ResponseState, RequestValidate;
 
     /**
      * @param string $wsdl          file path
@@ -64,12 +66,33 @@ class RequestBuilder
         return $this->companyName;
     }
 
+    /**
+     * @return string
+     */
     public function genTransactionId()
     {
         return $this->getCompanyId().sprintf('%015d', Carbon::now()->format('YmdHis'));
     }
 
-    public function make($params, Closure $errorHandler = null)
+    /**
+     * @param array $params
+     * @param Closure $errorHandler
+     *
+     * @return RequestBuilder|InvalidArgumentException
+     */
+    public function make(array $params, Closure $errorHandler = null)
+    {
+        return $this->validateParams($params)
+            ->makeSoapRequest($params, $errorHandler);
+    }
+
+    /**
+     * @param array $params
+     * @param Closure $errorHandler
+     *
+     * @return RequestBuilder|Closure
+     */
+    protected function makeSoapRequest(array $params, Closure $errorHandler = null)
     {
         $this->client = $this->genClient(
             static::genSoapHeader([
@@ -83,7 +106,9 @@ class RequestBuilder
 
         try {
             $this->response = $this->getClient()
-                ->__soapCall('InstnCollPmtInstAdd', [$params]);
+                ->__soapCall('InstnCollPmtInstAdd', [
+                    static::genSoapBody($params),
+                ]);
         } catch (SoapFault $e) {
             $this->e = $e;
 
@@ -91,14 +116,5 @@ class RequestBuilder
         }
 
         return $this;
-    }
-
-    public function debug()
-    {
-        return [
-            $this->response,
-            $this->client,
-            $this->e,
-        ];
     }
 }
