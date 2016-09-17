@@ -13,4 +13,12 @@ trait ResponseStateTrait
      * @var mixed SoapFault|null
      */
     protected $e;
+
+    /**
+     * @return boolean
+     */
+    public function isSuccessFul()
+    {
+        return is_null($this->e) and ($this->response->Status->StatusCode == '0000');
+    }
 }
