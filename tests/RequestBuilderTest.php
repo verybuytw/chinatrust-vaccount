@@ -23,23 +23,23 @@ class RequestBuilderTest extends AbstractTestCase
 
     public function testGetSoapClientWithHeader()
     {
-        $builder = new RequestBuilder(81842, $this->wsdl);
+        $builder = new RequestBuilder($this->wsdl, 81842, 'VERYBUY');
 
         $this->assertGreaterThanOrEqual(20, $builder->genTransactionId());
     }
 
-    public function testGetSoapClientRequest()
-    {
-        $builder = new RequestBuilder(81842, $this->wsdl);
-
-        $builder->make(static::paymentStub());
-
-        dd($builder);
-    }
+//    public function testGetSoapClientRequest()
+//    {
+//        $builder = new RequestBuilder(81842, $this->wsdl);
+//
+//        $builder->make(static::paymentStub());
+//
+//        dd($builder);
+//    }
 
     private function paymentStub()
     {
-        $builder = new RequestBuilder(81842, $this->wsdl);
+        $builder = new RequestBuilder($this->wsdl, 81842, 'VERYBUY');
 
         $vaccount = 81842234567891;
 

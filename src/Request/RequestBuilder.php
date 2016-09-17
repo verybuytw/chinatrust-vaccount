@@ -3,23 +3,24 @@
 namespace VeryBuy\Payment\ChinaTrust\VirtualAccount\Request;
 
 use Carbon\Carbon;
+use Closure;
 use SoapFault;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\ResponseStateTrait as ResponseState;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\SoapRequestTrait as SoapRequest;
 
 class RequestBuilder
 {
-    const COMPANY_NAME = 'VERYBUY';
-
     use SoapRequest, ResponseState;
 
     /**
-     * @param int $companyId
-     * @param string $wsdl  File Path
+     * @param string $wsdl          file path
+     * @param int $companyId        company id
+     * @param string $companyName   company short name
      */
-    public function __construct($companyId, $wsdl)
+    public function __construct($wsdl, $companyId, $companyName)
     {
         $this->setCompanyId($companyId)
+            ->setCompanyName($companyName)
             ->setWsdl($wsdl);
     }
 
@@ -36,11 +37,31 @@ class RequestBuilder
     }
 
     /**
-     * @return string
+     * @return int
      */
     protected function getCompanyId()
     {
         return $this->companyId;
+    }
+
+    /**
+     * @param string $companyName
+     *
+     * @return RequestBuilder
+     */
+    protected function setCompanyName($companyName)
+    {
+        $this->companyName = $companyName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCompanyName()
+    {
+        return $this->companyName;
     }
 
     public function genTransactionId()
@@ -48,11 +69,11 @@ class RequestBuilder
         return $this->getCompanyId().sprintf('%015d', Carbon::now()->format('YmdHis'));
     }
 
-    public function make($params)
+    public function make($params, Closure $errorHandler = null)
     {
         $this->client = $this->genClient(
             static::genSoapHeader([
-                'from' => ['name' => static::COMPANY_NAME],
+                'from' => ['name' => static::getCompanyName()],
                 'to' => ['name' => 'CTCB'],
                 'operationID' => 'InstnCollPmt/1.0/InstnCollPmtInstAdd',
                 'operationType' => 'syncRequestResponse',
@@ -65,8 +86,19 @@ class RequestBuilder
                 ->__soapCall('InstnCollPmtInstAdd', [$params]);
         } catch (SoapFault $e) {
             $this->e = $e;
+
+            (! is_null($errorHandler)) ? $errorHandler($this) : null;
         }
 
         return $this;
+    }
+
+    public function debug()
+    {
+        return [
+            $this->response,
+            $this->client,
+            $this->e,
+        ];
     }
 }
