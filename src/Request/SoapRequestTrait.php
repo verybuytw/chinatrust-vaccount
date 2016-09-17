@@ -97,13 +97,16 @@ trait SoapRequestTrait
         $expireAt = Carbon::createFromTimestamp($options->get('expired_at'));
 
         $field_name = '';
-        if ($options->has('store.field_name')) {
-            $field_name = $options->get('store.field_name');
-        }
-
         $field_value = '';
-        if ($options->has('store.field_value')) {
-            $field_value = $options->get('store.field_value');
+
+        if ($options->has('store')) {
+            $store = Collection::make($options->get('store'));
+            if ($store->has('field_name')) {
+                $field_name = $store->get('field_name');
+            }
+            if ($store->has('field_value')) {
+                $field_value = $store->get('field_value');
+            }
         }
 
         return [
