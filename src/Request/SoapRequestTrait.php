@@ -67,25 +67,20 @@ trait SoapRequestTrait
     }
 
     /**
-     * @param array $options
-     *
      * @return SoapHeader
      */
-    public function genSoapHeader(array $options)
+    public function genSoapHeader()
     {
-
-//        $headers = [
-//            'from' => ['name' => $companyName], // setting from chinatrust. default: VERYBUY
-//            'to' => ['name' => 'CTCB'],
-//            'operationID' => 'InstnCollPmt/1.0/InstnCollPmtInstAdd',
-//            'operationType' => 'syncRequestResponse',
-//            'transactionID' => $serialNumber, // length 20
-//        ];
-
         return new SoapHeader(
             'http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd',
             'PartyInfo',
-            $options,
+            [
+                'from' => ['name' => static::getCompanyName()], // setting from chinatrust. default: VERYBUY
+                'to' => ['name' => 'CTCB'],
+                'operationID' => 'InstnCollPmt/1.0/InstnCollPmtInstAdd',
+                'operationType' => 'syncRequestResponse',
+                'transactionID' => static::genTransactionId(), // length 20
+            ],
             false
         );
     }

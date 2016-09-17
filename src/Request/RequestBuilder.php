@@ -94,15 +94,7 @@ class RequestBuilder
      */
     protected function makeSoapRequest(array $params, Closure $errorHandler = null)
     {
-        $this->client = $this->genClient(
-            static::genSoapHeader([
-                'from' => ['name' => static::getCompanyName()],
-                'to' => ['name' => 'CTCB'],
-                'operationID' => 'InstnCollPmt/1.0/InstnCollPmtInstAdd',
-                'operationType' => 'syncRequestResponse',
-                'transactionID' => static::genTransactionId(),
-            ])
-        );
+        $this->client = $this->genClient(static::genSoapHeader());
 
         try {
             $this->response = $this->getClient()
