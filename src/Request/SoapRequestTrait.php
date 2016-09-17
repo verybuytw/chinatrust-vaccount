@@ -3,6 +3,7 @@
 namespace VeryBuy\Payment\ChinaTrust\VirtualAccount\Request;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use SoapClient;
 use SoapHeader;
 
@@ -91,7 +92,19 @@ trait SoapRequestTrait
      */
     public function genSoapBody(array $options)
     {
-        $expireAt = Carbon::createFromTimestamp($options['expired_at']);
+        $options = Collection::make($options);
+
+        $expireAt = Carbon::createFromTimestamp($options->get('expired_at'));
+
+        $field_name = '';
+        if ($options->has('store.field_name')) {
+            $field_name = $options->get('store.field_name');
+        }
+
+        $field_value = '';
+        if ($options->has('store.field_value')) {
+            $field_value = $options->get('store.field_value');
+        }
 
         return [
             'TxnCode' => 'InstnCollPmtInstAdd',
@@ -115,21 +128,21 @@ trait SoapRequestTrait
                             'SettlementMethod' => 'Bank',
                             'RefInfo' => [
                                 'RefType' => 'BankBarcode2',
-                                'RefId' => $options['vaccount'],
+                                'RefId' => $options->get('vaccount'),
                             ],
                         ],
                         [
                             'SettlementMethod' => 'StoreAgent',
                             'RefInfo' => [
                                 'RefType' => 'StoreBarcode2',
-                                'RefId' => $options['vaccount'],
+                                'RefId' => $options->get('vaccount'),
                             ],
-                            'Memo' => sprintf('%- 50s%- 50s', $options['field_value'], $options['field_name']),
+                            'Memo' => sprintf('%- 50s%- 50s', $field_value, $field_name),
                         ],
                     ],
                     'BillSummAmt' => [
                         'CurAmt' => [
-                            'Amt' => $options['amount'],
+                            'Amt' => $options->get('amount'),
                         ],
                     ],
                 ],
