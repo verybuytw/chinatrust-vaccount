@@ -71,11 +71,19 @@ trait SoapRequestTrait
     {
         $wsdl = static::getWsdl();
 
-        $client = new SoapClient($wsdl, [
+        $options = [
             'encoding' => 'UTF-8',
             'cache_wsdl' => WSDL_CACHE_NONE,
             'trace' => 1,
-        ]);
+        ];
+
+        if (static::getCert()) {
+            $options = array_merge($options, [
+                'local_cert' => static::getCert(),
+            ]);
+        }
+
+        $client = new SoapClient($wsdl, $options);
 
         if (! is_null($header)) {
             $client->__setSoapHeaders($header);

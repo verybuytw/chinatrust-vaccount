@@ -25,7 +25,7 @@ class RequestBuilderTest extends AbstractTestCase
         $builder = new RequestBuilder([
             'wsdl' => $this->wsdl,
             'id' => 81842,
-            'name' => 'VERYBUY'
+            'name' => 'VERYBUY',
         ]);
 
         $this->assertGreaterThanOrEqual(20, $builder->genTransactionId());
