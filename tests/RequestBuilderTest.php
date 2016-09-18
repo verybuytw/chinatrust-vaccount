@@ -11,7 +11,7 @@ class RequestBuilderTest extends AbstractTestCase
     public function setUp()
     {
         $base_path = dirname(__DIR__);
-        $wsdl_path = $base_path.DIRECTORY_SEPARATOR.'wsdl';
+        $wsdl_path = $base_path.DIRECTORY_SEPARATOR.'resources';
         $this->wsdl = $wsdl_path.DIRECTORY_SEPARATOR.'InstnCollPmt.sit.wsdl';
     }
 
