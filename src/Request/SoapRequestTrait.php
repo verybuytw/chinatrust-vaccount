@@ -10,9 +10,14 @@ use SoapHeader;
 trait SoapRequestTrait
 {
     /**
-     * @var Path
+     * @var string  wsdl file path
      */
     protected $wsdl;
+
+    /**
+     * @var string cert file path
+     */
+    protected $cert;
 
     /**
      * @var SoapClient
@@ -35,6 +40,26 @@ trait SoapRequestTrait
     protected function setWsdl($wsdl)
     {
         $this->wsdl = $wsdl;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCert()
+    {
+        return $this->cert;
+    }
+
+    /**
+     * @param string $cert
+     *
+     * @return RequestBuilder
+     */
+    protected function setCert($cert)
+    {
+        $this->cert = $cert;
 
         return $this;
     }

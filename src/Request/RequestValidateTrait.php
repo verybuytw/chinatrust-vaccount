@@ -8,6 +8,19 @@ use InvalidArgumentException;
 trait RequestValidateTrait
 {
     /**
+     * @param array $config
+     *
+     * @return mixed RequestBuilder|InvalidArgumentException
+     */
+    protected function validateConfig(array $config)
+    {
+        return $this->validateFromRequired(
+            $config,
+            ['wsdl', 'id', 'name']
+        );
+    }
+
+    /**
      * @param array $params
      *
      * @return mixed RequestBuilder|InvalidArgumentException

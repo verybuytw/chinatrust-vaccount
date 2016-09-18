@@ -22,7 +22,11 @@ class RequestBuilderTest extends AbstractTestCase
 
     public function testGetSoapClientWithHeader()
     {
-        $builder = new RequestBuilder($this->wsdl, 81842, 'VERYBUY');
+        $builder = new RequestBuilder([
+            'wsdl' => $this->wsdl,
+            'id' => 81842,
+            'name' => 'VERYBUY'
+        ]);
 
         $this->assertGreaterThanOrEqual(20, $builder->genTransactionId());
     }

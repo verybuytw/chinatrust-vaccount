@@ -15,15 +15,28 @@ class RequestBuilder
     use SoapRequest, ResponseState, RequestValidate;
 
     /**
-     * @param string $wsdl          file path
-     * @param int $companyId        company id
-     * @param string $companyName   company short name
+     * @var int Company Id
      */
-    public function __construct($wsdl, $companyId, $companyName)
+    protected $companyId;
+
+    /**
+     * @var string Company short name
+     */
+    protected $companyName;
+
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options = [])
     {
-        $this->setCompanyId($companyId)
-            ->setCompanyName($companyName)
-            ->setWsdl($wsdl);
+        $this->validateConfig($options)
+            ->setCompanyId($options['id'])
+            ->setCompanyName($options['name'])
+            ->setWsdl($options['wsdl']);
+
+        if (array_key_exists('cert', $options)) {
+            $this->setCert($options['cert']);
+        }
     }
 
     /**
