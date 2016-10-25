@@ -10,26 +10,26 @@ trait RequestValidateTrait
     /**
      * @param array $config
      *
-     * @return mixed RequestBuilder|InvalidArgumentException
+     * @return mixed RequestBuilder
      */
     protected function validateConfig(array $config)
     {
         return $this->validateFromRequired(
             $config,
-            ['wsdl', 'id', 'name']
+            ['wsdl', 'company']
         );
     }
 
     /**
      * @param array $params
      *
-     * @return mixed RequestBuilder|InvalidArgumentException
+     * @return mixed RequestBuilder
      */
     protected function validateParams(array $params)
     {
         return $this->validateFromRequired(
             $params,
-            ['vaccount', 'amount', 'expired_at']
+            ['channels', 'vaccount', 'amount', 'expired_at']
         );
     }
 

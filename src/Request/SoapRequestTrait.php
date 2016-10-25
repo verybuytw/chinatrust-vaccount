@@ -72,9 +72,21 @@ trait SoapRequestTrait
         $wsdl = static::getWsdl();
 
         $options = [
+            'soap_version' => SOAP_1_2,
             'encoding' => 'UTF-8',
             'cache_wsdl' => WSDL_CACHE_NONE,
             'trace' => 1,
+            'exceptions' => 1,
+//            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
+//            'compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP,
+            'ssl_method' => SOAP_SSL_METHOD_TLS,
+//            'stream_context' => stream_context_create([
+//                'ssl' => [
+//                    'verify_peer' => false,
+//                    'verify_peer_name' => false,
+//                    'allow_self_signed' => true,
+//                ]
+//             ])
         ];
 
         if (static::getCert()) {
@@ -82,6 +94,9 @@ trait SoapRequestTrait
                 'local_cert' => static::getCert(),
             ]);
         }
+
+        dump($options);
+//        exit;
 
         $client = new SoapClient($wsdl, $options);
 
@@ -109,7 +124,7 @@ trait SoapRequestTrait
             'http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd',
             'PartyInfo',
             [
-                'from' => ['name' => static::getCompanyName()], // setting from chinatrust. default: VERYBUY
+                'from' => ['name' => static::getCompany()->get('name')], // setting from chinatrust. default: VERYBUY
                 'to' => ['name' => 'CTCB'],
                 'operationID' => 'InstnCollPmt/1.0/InstnCollPmtInstAdd',
                 'operationType' => 'syncRequestResponse',
@@ -129,53 +144,37 @@ trait SoapRequestTrait
 
         $expireAt = Carbon::createFromTimestamp($options->get('expired_at'));
 
-        $field_name = '非常勸敗';
-        $field_value = '購物消費選項';
-
-        if ($options->has('store')) {
-            $store = Collection::make($options->get('store'));
-            if ($store->has('field_name')) {
-                $field_name = $store->get('field_name');
-            }
-            if ($store->has('field_value')) {
-                $field_value = $store->get('field_value');
-            }
-        }
-
         return [
             'TxnCode' => 'InstnCollPmtInstAdd',
             'RqUID' => static::genTransactionId(),
             'CollPmtInstInfo' => [
                 'BillerInfo' => [
-                    'IndustNum' => '03077208',
-                    'BussType' => '07914',
+                    'IndustNum' => '53538135',
+                    'BussType' => 81842,
                     'Name' => '非常科技',
-                    'ContactInfo' => '',
+                    'ContactInfo' => [
+                        'PostAddr' => [
+                            'Addr' => '台北市中正區'
+                        ],
+                        'Phone' => '02-3451123'
+                    ],
                 ],
                 'BillInfo' => [
-                    'CustPermId' => '',
+                    'CustPermId' => 'A123456789',
                     'BillingAcct' => '繳款人識別碼(MID)',
                     'Name' => '繳款人姓名',
-                    'ContactInfo' => '',
+                    'ContactInfo' => [
+                        'PostAddr' => [
+                            'Addr' => '台北市中正區',
+                            'PostalCode' => '10466'
+                        ],
+                        'EmailAddr' => 'test@abc.com'
+                    ],
                     'BillDt' => $expireAt->format('Y-m-d'),
                     'DueDt' => $expireAt->format('Y-m-d'),
-                    'SettlementInfo' => [
-                        [
-                            'SettlementMethod' => 'Bank',
-                            'RefInfo' => [
-                                'RefType' => 'BankBarcode2',
-                                'RefId' => $options->get('vaccount'),
-                            ],
-                        ],
-                        [
-                            'SettlementMethod' => 'StoreAgent',
-                            'RefInfo' => [
-                                'RefType' => 'StoreBarcode2',
-                                'RefId' => $options->get('vaccount'),
-                            ],
-                            'Memo' => sprintf('%- 50s%- 50s', $field_value, $field_name),
-                        ],
-                    ],
+                    'SettlementInfo' => Collection::make($options->get('channels'))->map(function($method) use ($options) {
+                        return static::genChannelParams($method, $options);
+                    })->all(),
                     'BillSummAmt' => [
                         'CurAmt' => [
                             'Amt' => $options->get('amount'),
