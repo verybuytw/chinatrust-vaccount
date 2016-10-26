@@ -77,16 +77,16 @@ trait SoapRequestTrait
             'cache_wsdl' => WSDL_CACHE_NONE,
             'trace' => 1,
             'exceptions' => 1,
-//            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
-//            'compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP,
             'ssl_method' => SOAP_SSL_METHOD_TLS,
-//            'stream_context' => stream_context_create([
-//                'ssl' => [
-//                    'verify_peer' => false,
-//                    'verify_peer_name' => false,
-//                    'allow_self_signed' => true,
-//                ]
-//             ])
+            'stream_context' => stream_context_create([
+                'ssl' => [
+                    'verify_peer' => false,
+                ],
+                'https' => [
+                    'curl_verify_ssl_peer'  => false,
+                    'curl_verify_ssl_host'  => false
+                 ],
+             ])
         ];
 
         if (static::getCert()) {
@@ -94,9 +94,6 @@ trait SoapRequestTrait
                 'local_cert' => static::getCert(),
             ]);
         }
-
-        dump($options);
-//        exit;
 
         $client = new SoapClient($wsdl, $options);
 
@@ -141,6 +138,7 @@ trait SoapRequestTrait
     public function genSoapBody(array $options)
     {
         $options = Collection::make($options);
+        $customer = Collection::make($options->get('customer'));
 
         $expireAt = Carbon::createFromTimestamp($options->get('expired_at'));
 
@@ -149,27 +147,16 @@ trait SoapRequestTrait
             'RqUID' => static::genTransactionId(),
             'CollPmtInstInfo' => [
                 'BillerInfo' => [
-                    'IndustNum' => '53538135',
-                    'BussType' => 81842,
-                    'Name' => '非常科技',
-                    'ContactInfo' => [
-                        'PostAddr' => [
-                            'Addr' => '台北市中正區'
-                        ],
-                        'Phone' => '02-3451123'
-                    ],
+                    'IndustNum' => static::getCompany()->get('number'),
+                    'BussType' => static::getCompany()->get('id'),
+                    'Name' => static::getCompany()->get('alias'),
+                    'ContactInfo' => '',
                 ],
                 'BillInfo' => [
-                    'CustPermId' => 'A123456789',
-                    'BillingAcct' => '繳款人識別碼(MID)',
-                    'Name' => '繳款人姓名',
-                    'ContactInfo' => [
-                        'PostAddr' => [
-                            'Addr' => '台北市中正區',
-                            'PostalCode' => '10466'
-                        ],
-                        'EmailAddr' => 'test@abc.com'
-                    ],
+                    'CustPermId' => '',
+                    'BillingAcct' => $customer->get('mid'),
+                    'Name' =>  $customer->get('name'),
+                    'ContactInfo' => '',
                     'BillDt' => $expireAt->format('Y-m-d'),
                     'DueDt' => $expireAt->format('Y-m-d'),
                     'SettlementInfo' => Collection::make($options->get('channels'))->map(function($method) use ($options) {

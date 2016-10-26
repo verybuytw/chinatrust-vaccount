@@ -60,13 +60,15 @@ trait RequestCommonTrait
                 return [
                     'SettlementMethod' => 'Bank',
                     'RefInfo' => [
+                        'RefType' => 'BankBarcode1',
+                        'RefId' => $vaccount,
+                    ],[
                         'RefType' => 'BankBarcode2',
                         'RefId' => $vaccount,
                     ],
                 ];
             },
             'store' => function ($vaccount, $memo) {
-
                 return [
                     'SettlementMethod' => 'StoreAgent',
                     'RefInfo' => [
@@ -84,7 +86,7 @@ trait RequestCommonTrait
 
         $memo = [
             'field_name' => '非常勸敗',
-            'field_value' => '購物消費選項'
+            'field_value' => '購物消費選項',
         ];
 
         if ($options->has('store')) {

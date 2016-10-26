@@ -29,7 +29,7 @@ trait RequestValidateTrait
     {
         return $this->validateFromRequired(
             $params,
-            ['channels', 'vaccount', 'amount', 'expired_at']
+            ['channels', 'customer','vaccount', 'amount', 'expired_at']
         );
     }
 

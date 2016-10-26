@@ -8,6 +8,7 @@ use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\RequestCommonTrait as Requ
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\RequestValidateTrait as RequestValidate;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\ResponseStateTrait as ResponseState;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\SoapRequestTrait as SoapRequest;
+use VeryBuy\Payment\ChinaTrust\VirtualAccount\Response\RegisterResponse;
 
 class RequestBuilder
 {
@@ -50,16 +51,17 @@ class RequestBuilder
         $this->client = $this->genClient(static::genSoapHeader());
 
         try {
-            $this->response = $this->getClient()
+            $res = $this->getClient()
                 ->__soapCall('InstnCollPmtInstAdd', [
                     static::genSoapBody($params),
                 ]);
+
         } catch (SoapFault $e) {
             $this->e = $e;
 
-            (! is_null($errorHandler)) ? $errorHandler($this) : null;
+            return (! is_null($errorHandler)) ? $errorHandler($this) : $e;
         }
 
-        return $this;
+        return $this->response = new RegisterResponse($res);
     }
 }
