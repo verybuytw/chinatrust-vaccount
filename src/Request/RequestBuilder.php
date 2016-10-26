@@ -14,6 +14,10 @@ class RequestBuilder
 {
     use SoapRequest, ResponseState, RequestValidate, RequestCommon;
 
+    const CHANNEL_POST = 'post';
+    const CHANNEL_BANK = 'bank';
+    const CHANNEL_STORE = 'store';
+
     /**
      * @param array $options
      */

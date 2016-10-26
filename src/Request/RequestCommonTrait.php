@@ -47,7 +47,7 @@ trait RequestCommonTrait
     protected function genChannelParams($method, Collection $options)
     {
         $conds = [
-            'post' => function ($vaccount, $memo) {
+            static::CHANNEL_POST => function ($vaccount, $memo) {
                 return [
                     'SettlementMethod' => 'PostOffice',
                     'RefInfo' => [
@@ -56,7 +56,7 @@ trait RequestCommonTrait
                     ],
                 ];
             },
-            'bank' => function ($vaccount, $memo) {
+            static::CHANNEL_BANK => function ($vaccount, $memo) {
                 return [
                     'SettlementMethod' => 'Bank',
                     'RefInfo' => [
@@ -69,7 +69,7 @@ trait RequestCommonTrait
                     ],
                 ];
             },
-            'store' => function ($vaccount, $memo) {
+            static::CHANNEL_STORE => function ($vaccount, $memo) {
                 return [
                     'SettlementMethod' => 'StoreAgent',
                     'RefInfo' => [
