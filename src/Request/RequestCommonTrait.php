@@ -62,7 +62,8 @@ trait RequestCommonTrait
                     'RefInfo' => [
                         'RefType' => 'BankBarcode1',
                         'RefId' => $vaccount,
-                    ],[
+                    ],
+                    [
                         'RefType' => 'BankBarcode2',
                         'RefId' => $vaccount,
                     ],
