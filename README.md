@@ -24,6 +24,36 @@ $    composer require vb-payment/chinatrust-vaccount
     $vaccount = $builder->make();
 ```
 
+
+### Use RequestBuilder register virtual account number to ChinaTrust
+
+
+```php
+<?php
+    $response = (new RequestBuilder([
+        'wsdl' => $wsdl,
+        'company' => [
+            'id' => 81842,
+            'number' => 53538135,
+            'name' => 'VERYBUY',
+            'alias' => '非常科技',
+        ],
+    ]))->make([
+        'channels' => ['post', 'bank', 'store'],
+        'customer' => [
+            'mid' => '繳款人識別碼(MID1)',  // length:20
+            'name' => '繳款人姓名',         // length:100
+        ],
+        'vaccount' => $vaccount,
+        'amount' => 2000,
+        'expired_at' => strtotime('2016-10-31'),
+        'store' => [
+            'field_name' => '訂單編號', // ibon 上顯示文字
+            'field_value' => sprintf('T%015d', time()), // ibon 上顯示的值
+        ],
+    ]);
+```
+
 ### Use ResponseVerifier verify response
 
 
