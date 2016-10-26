@@ -20,16 +20,16 @@ class RequestBuilderTest extends AbstractTestCase
         $this->assertFileExists($this->wsdl);
     }
 
-    public function testGetSoapClientWithHeader()
+    public function testBuilder()
     {
-        $builder = new RequestBuilder([
-            'wsdl' => $this->wsdl,
-            'company' => [
-                'id' => 81842,
-                'number' => 53538135,
-                'name' => 'VERYBUY',
-                'alias' => '非常科技',
-            ]
-        ]);
+//        $builder = new RequestBuilder([
+//            'wsdl' => $this->wsdl,
+//            'company' => [
+//                'id' => 81842,
+//                'number' => 53538135,
+//                'name' => 'VERYBUY',
+//                'alias' => '非常科技',
+//            ]
+//        ]);
     }
 }
