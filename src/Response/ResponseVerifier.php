@@ -61,9 +61,9 @@ class ResponseVerifier implements ParseInterface
      */
     public function getPaidAt()
     {
-        $date = sprintf('%014s', $this->getParsed()->get('TXN-DATE').$this->getParsed()->get('TIME'));
+        $dateTime = sprintf('%014s', $this->getParsed()->get('TXN-DATE').$this->getParsed()->get('TIME'));
 
-        return (new Carbon($date))
+        return (new Carbon($dateTime))
             ->addYears(1911);
     }
 
