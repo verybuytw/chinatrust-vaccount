@@ -26,5 +26,7 @@ class ResponseVerifierTest extends AbstractTestCase
         $this->assertArrayHasKey('MEMO-NO', $parsed);
         $this->assertArrayHasKey('COMPANY-NO', $parsed);
         $this->assertArrayHasKey('TXN-AMT', $parsed);
+
+        $this->assertTrue(is_bool($verifier->isStore()));
     }
 }

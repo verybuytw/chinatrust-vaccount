@@ -3,12 +3,13 @@
 namespace VeryBuy\Payment\ChinaTrust\VirtualAccount\Response;
 
 use Carbon\Carbon;
+use VeryBuy\Payment\ChinaTrust\VirtualAccount\Response\ResponsePlatformTrait as ResponsePlatform;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Response\ResponseFacilityTrait as ResponseFacility;
 use VeryBuy\Payment\ChinaTrust\VirtualAccount\Response\ResponseParseTrait as ResponseParse;
 
 class ResponseVerifier implements ParseInterface
 {
-    use ResponseParse, ResponseFacility;
+    use ResponseParse, ResponseFacility, ResponsePlatform;
 
     /**
      * @var string
@@ -24,25 +25,6 @@ class ResponseVerifier implements ParseInterface
             $this->result = $result;
             $this->parse = static::parse($result);
         }
-    }
-
-    /**
-     * @return string
-     */
-    private function getPlatformCode()
-    {
-        return $this->getParsed()->get('CODE');
-    }
-
-    /**
-     * @return string
-     */
-    public function getPlatform()
-    {
-        $code = $this->getPlatformCode();
-
-        return (array_key_exists($code, $this->facilities)) ?
-            $this->facilities[$code] : $code;
     }
 
     /**
