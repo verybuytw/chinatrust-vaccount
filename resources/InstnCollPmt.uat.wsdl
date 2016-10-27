@@ -202,7 +202,7 @@
     </wsdl:message>
     <wsdl:service name="InstnCollPmtService">
         <wsdl:port name="InstnCollPmt__1.0_HTTPSPort" binding="tns:InstnCollPmt__1.0">
-            <soap:address location="https://175.184.247.21:6700/SOAP"/>
+            <soap:address location="https://hermes.ctbcbank.com:6705/SOAP"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

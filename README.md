@@ -27,9 +27,12 @@ $    composer require vb-payment/chinatrust-vaccount
 
 ### Use RequestBuilder register virtual account number to ChinaTrust
 
+ > before request, hosts have to append settings `175.184.247.21  hermes.ctbcbank.com`
 
 ```php
 <?php
+    use VeryBuy\Payment\ChinaTrust\VirtualAccount\Request\RequestBuilder;
+
     $response = (new RequestBuilder([
         'wsdl' => $wsdl,
         'company' => [
@@ -39,7 +42,11 @@ $    composer require vb-payment/chinatrust-vaccount
             'alias' => '非常科技',
         ],
     ]))->make([
-        'channels' => ['post', 'bank', 'store'],
+        'channels' => [
+            RequestBuilder::CHANNEL_POST,
+            RequestBuilder::CHANNEL_BANK,
+            RequestBuilder::CHANNEL_STORE,
+        ],
         'customer' => [
             'mid' => '繳款人識別碼(MID1)',  // length:20
             'name' => '繳款人姓名',         // length:100
