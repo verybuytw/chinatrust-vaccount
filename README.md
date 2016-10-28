@@ -74,6 +74,12 @@ $    composer require vb-payment/chinatrust-vaccount
     $verifier->getPaidAt();         // 付款時間
     $verifier->getVirtualAccount(); // 取得被付款虛擬帳號
     $verifier->getAmount();         // 付款金額
+    
+
+    // 當收到 Response 後的 HTTP CODE
+    // 200 成功
+    // 250 重複送(TransactionNo可為重複送的的判斷依據)
+    // 543 失敗
 ```
 
 --
