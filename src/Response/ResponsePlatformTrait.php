@@ -34,6 +34,14 @@ trait ResponsePlatformTrait
     /**
      * @return boolean
      */
+    public function isLIFE()
+    {
+        return ($this->getPlatformCode() == ResponseCode::PLATFORM_LIFE);
+    }
+
+    /**
+     * @return boolean
+     */
     public function isFAMI()
     {
         return ($this->getPlatformCode() == ResponseCode::PLATFORM_FAMI);
@@ -47,6 +55,7 @@ trait ResponsePlatformTrait
     {
         return in_array($this->getPlatformCode(), [
             ResponseCode::PLATFORM_IBON,
+            ResponseCode::PLATFORM_LIFE,
             ResponseCode::PLATFORM_FAMI,
         ]);
     }

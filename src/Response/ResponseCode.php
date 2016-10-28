@@ -6,5 +6,6 @@ interface ResponseCode
 {
     const TYPE_SUCCESS = '0000';
     const PLATFORM_IBON = 'V';
+    const PLATFORM_LIFE = 'L';
     const PLATFORM_FAMI = 'K';
 }
