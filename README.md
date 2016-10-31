@@ -43,7 +43,6 @@ $    composer require vb-payment/chinatrust-vaccount
         ],
     ]))->make([
         'channels' => [
-            RequestBuilder::CHANNEL_POST,
             RequestBuilder::CHANNEL_BANK,
             RequestBuilder::CHANNEL_STORE,
         ],
