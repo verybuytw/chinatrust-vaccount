@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by TIBCO WSDL-->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ns.chinatrust.com.tw/XSD/CTCB/ESB/Client/BC/InstnCollPmt.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:partyInfo="http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd" xmlns:ns0="http://ns.chinatrust.com.tw/XSD/CTCB/BC/Message/InstnCollPmtInstAddRq/01" xmlns:ns1="http://ns.chinatrust.com.tw/XSD/CTCB/BC/Message/InstnCollPmtInstAddRs/01" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="InstnCollPmt" targetNamespace="http://ns.chinatrust.com.tw/XSD/CTCB/ESB/Client/BC/InstnCollPmt.wsdl">
+    <wsdl:types>
+        <xs:schema targetNamespace="http://ns.chinatrust.com.tw/XSD/CTCB/BC/Message/InstnCollPmtInstAddRq/01" xmlns:ctcb="http://ns.chinatrust.com.tw/XSD/CTCB/BC/Message/InstnCollPmtInstAddRq/01" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:element name="InstnCollPmtInstAddRq">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:TxnCode"/>
+                        <xs:element ref="ctcb:RqUID"/>
+                        <xs:element ref="ctcb:CollPmtInstInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Addr" type="xs:string"/>
+            <xs:element name="Amt" type="xs:decimal"/>
+            <xs:element name="BillDt" type="xs:date"/>
+            <xs:element name="BillingAcct" type="xs:string"/>
+            <xs:element name="BillInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:CustPermId"/>
+                        <xs:element ref="ctcb:BillingAcct"/>
+                        <xs:element ref="ctcb:Name"/>
+                        <xs:element ref="ctcb:ContactInfo"/>
+                        <xs:element ref="ctcb:BillDt"/>
+                        <xs:element ref="ctcb:DueDt"/>
+                        <xs:element ref="ctcb:BillRefInfo" minOccurs="0"/>
+                        <xs:element ref="ctcb:Memo" minOccurs="0"/>
+                        <xs:element ref="ctcb:RefInfo" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element ref="ctcb:SettlementInfo" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element ref="ctcb:BillSummAmt" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="BillRefInfo" type="xs:string"/>
+            <xs:element name="BillSummAmt">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:ShortDesc" minOccurs="0"/>
+                        <xs:element ref="ctcb:Desc" minOccurs="0"/>
+                        <xs:element ref="ctcb:CurAmt" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="BillerInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:IndustNum"/>
+                        <xs:element ref="ctcb:BussType"/>
+                        <xs:element ref="ctcb:Name"/>
+                        <xs:element ref="ctcb:ContactInfo"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="BussType" type="xs:string"/>
+            <xs:element name="CollPmtInstInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:BillerInfo"/>
+                        <xs:element ref="ctcb:BillInfo"/>
+                        <xs:element ref="ctcb:RefInfo" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ContactInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:PostAddr" minOccurs="0"/>
+                        <xs:element ref="ctcb:Phone" minOccurs="0"/>
+                        <xs:element ref="ctcb:EmailAddr" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="CurAmt">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:Amt"/>
+                        <xs:element ref="ctcb:CurCode" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="CurCode" type="xs:string"/>
+            <xs:element name="CustPermId" type="xs:string"/>
+            <xs:element name="DueDt" type="xs:date"/>
+            <xs:element name="EmailAddr" type="xs:string"/>
+            <xs:element name="Fee">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:CurAmt"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="IndustNum" type="xs:string"/>
+            <xs:element name="Memo" type="xs:string"/>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Phone" type="xs:string"/>
+            <xs:element name="PostAddr">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:Addr"/>
+                        <xs:element ref="ctcb:PostalCode" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="PostalCode" type="xs:string"/>
+            <xs:element name="RefId" type="xs:string"/>
+            <xs:element name="RefInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:RefType"/>
+                        <xs:element ref="ctcb:RefId"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RefType" type="xs:string"/>
+            <xs:element name="RqUID" type="xs:string"/>
+            <xs:element name="SettlementMethod" type="xs:string"/>
+            <xs:element name="SettlementInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:SettlementMethod"/>
+                        <xs:element ref="ctcb:Fee" minOccurs="0"/>
+                        <xs:element ref="ctcb:RefInfo" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element ref="ctcb:Memo" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ShortDesc" type="xs:string"/>
+            <xs:element name="Desc" type="xs:string"/>
+            <xs:element name="TxnCode" type="xs:string"/>
+        </xs:schema>
+        <xs:schema targetNamespace="http://ns.chinatrust.com.tw/XSD/CTCB/BC/Message/InstnCollPmtInstAddRs/01" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ctcb="http://ns.chinatrust.com.tw/XSD/CTCB/BC/Message/InstnCollPmtInstAddRs/01" elementFormDefault="qualified" attributeFormDefault="unqualified">
+            <xs:element name="InstnCollPmtInstAddRs">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:Status"/>
+                        <xs:element ref="ctcb:RqUID"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RqUID" type="xs:string"/>
+            <xs:element name="Status">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="ctcb:StatusCode"/>
+                        <xs:element ref="ctcb:StatusDesc"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="StatusCode" type="xs:string"/>
+            <xs:element name="StatusDesc" type="xs:string"/>
+        </xs:schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pi="http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd" targetNamespace="http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+            <complexType name="party">
+                <sequence>
+                    <element name="domain" type="xsd:string" minOccurs="0"/>
+                    <element name="name" type="xsd:string"/>
+                </sequence>
+            </complexType>
+            <element name="PartyInfo">
+                <complexType>
+                    <sequence>
+                        <element name="from" type="pi:party"/>
+                        <element name="to" type="pi:party"/>
+                        <element name="operationID" type="xsd:string"/>
+                        <element name="operationType" type="xsd:string"/>
+                        <element name="transactionID" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </wsdl:types>
+    <wsdl:portType name="InstnCollPmt">
+        <wsdl:documentation>BCWSDL:InstnCollPmt</wsdl:documentation>
+        <wsdl:operation name="InstnCollPmtInstAdd">
+            <wsdl:documentation>BCWSDL:InstnCollPmtInstAdd</wsdl:documentation>
+            <wsdl:input message="tns:InstnCollPmt_InstnCollPmtInstAdd_request"/>
+            <wsdl:output message="tns:InstnCollPmt_InstnCollPmtInstAdd_response"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="InstnCollPmt__1.0" type="tns:InstnCollPmt">
+        <wsdl:documentation>BCWSDL:1.0</wsdl:documentation>
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="InstnCollPmtInstAdd">
+            <soap:operation style="document"/>
+            <wsdl:input>
+                <soap:body parts="body___1.0" use="literal"/>
+                <soap:header part="PartyInfo" message="tns:InstnCollPmt_InstnCollPmtInstAdd_request" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body parts="body___1.0" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:message name="InstnCollPmt_InstnCollPmtInstAdd_request">
+        <wsdl:part name="body___1.0" element="ns0:InstnCollPmtInstAddRq"/>
+        <wsdl:part name="PartyInfo" element="partyInfo:PartyInfo"/>
+    </wsdl:message>
+    <wsdl:message name="InstnCollPmt_InstnCollPmtInstAdd_response">
+        <wsdl:part name="body___1.0" element="ns1:InstnCollPmtInstAddRs"/>
+    </wsdl:message>
+    <wsdl:service name="InstnCollPmtService">
+        <wsdl:port name="InstnCollPmt__1.0_HTTPSPort" binding="tns:InstnCollPmt__1.0">
+            <soap:address location="https://hermes.ctbcbank.com:8442/SOAP"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
