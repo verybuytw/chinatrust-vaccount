@@ -47,7 +47,7 @@ trait RequestCommonTrait
     protected function genChannelParams($method, Collection $options)
     {
         $conds = [
-            static::CHANNEL_POST => function ($vaccount, $memo) {
+            static::CHANNEL_POST => function ($vaccount, $options) {
                 return [
                     'SettlementMethod' => 'PostOffice',
                     'RefInfo' => [
@@ -56,16 +56,32 @@ trait RequestCommonTrait
                     ],
                 ];
             },
-            static::CHANNEL_BANK => function ($vaccount, $memo) {
+            static::CHANNEL_BANK => function ($vaccount, $options) {
                 return [
                     'SettlementMethod' => 'Bank',
                     'RefInfo' => [
-                        'RefType' => 'BankBarcode2',
-                        'RefId' => $vaccount,
+                        [
+                            'RefType' => 'BankBarcode1',
+                            'RefId' => $vaccount,
+                        ],
+                        [
+                            'RefType' => 'BankBarcode2',
+                            'RefId' => $options->get('amount'),
+                        ],
                     ],
                 ];
             },
-            static::CHANNEL_STORE => function ($vaccount, $memo) {
+            static::CHANNEL_STORE => function ($vaccount, $options) {
+
+                $memo = [
+                    'field_name' => '非常勸敗',
+                    'field_value' => '購物消費選項',
+                ];
+
+                if ($options->has('store')) {
+                    $memo = $options->get('store');
+                }
+
                 return [
                     'SettlementMethod' => 'StoreAgent',
                     'RefInfo' => [
@@ -81,15 +97,6 @@ trait RequestCommonTrait
             throw new InvalidArgumentException('Undefined arguments.');
         }
 
-        $memo = [
-            'field_name' => '非常勸敗',
-            'field_value' => '購物消費選項',
-        ];
-
-        if ($options->has('store')) {
-            $memo = $options->get('store');
-        }
-
-        return $conds[$method]($options->get('vaccount'), $memo);
+        return $conds[$method]($options->get('vaccount'), $options);
     }
 }
